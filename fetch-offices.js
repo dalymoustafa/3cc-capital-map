@@ -86,23 +86,25 @@ async function main() {
 
   console.log(`Found ${records.length} records in Airtable`);
 
+  // Find the record that has office locations for 3 Comma Capital
+  // Instead of matching by name, find the record with Office Locations that contains "Lisbon"
   const artonRecord = records.find(r =>
-    r.fields["Name"] && r.fields["Name"].toLowerCase().includes("3 comma capital")
+    (r.fields["Office Locations"] || r.fields["Office Location(s)"]) &&
+    (r.fields["Office Locations"] || r.fields["Office Location(s)"]).toLowerCase().includes("lisbon")
   );
 
   if (!artonRecord) {
-    console.error("Could not find 3 comma capital!");
+    console.error("Could not find record with Lisbon office!");
+    records.forEach(r => {
+      const loc = r.fields["Office Locations"] || r.fields["Office Location(s)"];
+      if (loc) console.log(" -", r.fields["Name"], ":", loc.substring(0, 50));
+    });
     process.exit(1);
   }
 
-  console.log("Found 3 comma capital! Fields:", JSON.stringify(Object.keys(artonRecord.fields)));
+  console.log("Found record:", artonRecord.fields["Name"]);
 
   const rawLocations = artonRecord.fields["Office Locations"] || artonRecord.fields["Office Location(s)"];
-
-  if (!rawLocations) {
-    console.error("Could not find office locations field! Available fields:", JSON.stringify(Object.keys(artonRecord.fields)));
-    process.exit(1);
-  }
 
   console.log("Raw locations data:", rawLocations);
 
