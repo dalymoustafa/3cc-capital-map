@@ -82,7 +82,8 @@ async function main() {
   );
 
   if (!record) {
-    console.error("Could not find 3 Comma Capital!");
+    console.error("Could not find 3 Comma Capital! All names found:");
+    records.forEach(r => { if (r.fields["Name"]) console.log(" -", r.fields["Name"]); });
     process.exit(1);
   }
 
