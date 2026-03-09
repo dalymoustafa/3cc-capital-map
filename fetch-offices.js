@@ -52,19 +52,28 @@ function extractCity(address) {
 
 async function main() {
   const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`;
-  const records = await new Promise((resolve, reject) => {
-    const req = https.get(url, {
-      headers: { Authorization: `Bearer ${API_KEY}` }
-    }, (res) => {
-      let data = "";
-      res.on("data", chunk => data += chunk);
-      res.on("end", () => {
-        try { resolve(JSON.parse(data).records || []); }
-        catch (e) { reject(e); }
+  // Fetch all records with pagination
+  let allRecords = [];
+  let offset = null;
+  do {
+    const pageUrl = offset ? `${url}?offset=${offset}` : url;
+    const result = await new Promise((resolve, reject) => {
+      const req = https.get(pageUrl, {
+        headers: { Authorization: `Bearer ${API_KEY}` }
+      }, (res) => {
+        let data = "";
+        res.on("data", chunk => data += chunk);
+        res.on("end", () => {
+          try { resolve(JSON.parse(data)); }
+          catch (e) { reject(e); }
+        });
       });
+      req.on("error", reject);
     });
-    req.on("error", reject);
-  });
+    allRecords = allRecords.concat(result.records || []);
+    offset = result.offset || null;
+  } while (offset);
+  const records = allRecords;
 
   console.log(`Found ${records.length} records in Airtable`);
 
