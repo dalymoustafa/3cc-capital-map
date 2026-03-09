@@ -214,11 +214,7 @@ async function main() {
         });
       });
 
-      if (OFFICES.length > 0) {
-        map.fitBounds(OFFICES.map(o => [o.lat, o.lng]), { padding: [60, 60], maxZoom: 8 });
-      } else {
-        map.setView([30, 20], 2);
-      }
+      map.setView([20, 10], 2);
     });
 
   map.setView([30, 20], 2);
