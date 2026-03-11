@@ -142,7 +142,7 @@ async function main() {
     body { background: #fff; font-family: 'Libre Baskerville', serif; }
     .imi-map-widget { width: 100%; max-width: 960px; margin: 0 auto; }
     .map-label { font-family: 'Roboto Condensed', sans-serif; font-size: 12px; color: #888; margin-bottom: 6px; letter-spacing: 0.03em; }
-    #imi-map { width: 100%; height: 380px; background: #ffffff; }
+    #imi-map { width: 100%; height: 420px; margin-top: 80px; background: #ffffff; }
     .leaflet-control-attribution { display: none !important; }
     .leaflet-popup-content-wrapper { border-radius: 0 !important; border: 1px solid #e4e4e4 !important; box-shadow: 0 4px 16px rgba(0,0,0,0.10) !important; }
     .leaflet-popup-content { margin: 12px 16px !important; }
@@ -214,7 +214,7 @@ async function main() {
         });
       });
 
-      map.setView([20, 10], 2);
+      map.setView([20, -20], 1);
     });
 
   map.setView([30, 20], 2);
