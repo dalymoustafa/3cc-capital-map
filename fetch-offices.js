@@ -214,7 +214,7 @@ async function main() {
         });
       });
 
-      map.setView([20, -20], 1);
+      map.setView([0, 0], 1);
     });
 
   map.setView([30, 20], 2);
